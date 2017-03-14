@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SearchBarView">
+        <attr name="search_bar_color" format="color|reference" />
+        <attr name="search_bar_position" format="enum">
+            <enum name="position_left" value="4" />
+            <enum name="position_right" value="1" />
+        </attr>
+        <attr name="search_bar_status" format="enum">
+            <enum name="status_close" value="4" />
+            <enum name="status_open" value="1" />
+        </attr>
+        <attr name="search_bar_duration" format="integer" />
+        <attr name="search_bar_hint_text" format="string|reference" />
+        <attr name="search_bar_icon" format="reference" />
+        <attr name="search_bar_hint_text_color" format="color|reference" />
+        <attr name="search_bar_hint_text_size" format="dimension|reference" />
+    </declare-styleable>
+</resources>
