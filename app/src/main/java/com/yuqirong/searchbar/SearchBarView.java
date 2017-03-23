@@ -203,6 +203,8 @@ public class SearchBarView extends View {
     public void startOpen() {
         if (isOpen()) {
             return;
+        } else if (openAnimator.isStarted()) {
+            return;
         } else if (closeAnimator.isStarted()) {
             closeAnimator.cancel();
         }
@@ -215,6 +217,8 @@ public class SearchBarView extends View {
      */
     public void startClose() {
         if (isClose()) {
+            return;
+        } else if (closeAnimator.isStarted()) {
             return;
         } else if (openAnimator.isStarted()) {
             openAnimator.cancel();
