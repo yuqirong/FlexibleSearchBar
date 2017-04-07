@@ -4,29 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@color/colorAccent"
+                android:contentDescription="@null"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7" />
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:gravity="top"
+                app:layout_collapseMode="pin" />
+
+            <com.yuqirong.searchbar.SearchBarView
+                android:id="@+id/searchbarview"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                app:layout_collapseMode="pin"
+                app:search_bar_hint_text="@string/string_search_text" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.yuqirong.searchbar.SearchBarBehavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <RelativeLayout
-        android:id="@+id/titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@android:color/transparent">
-
-        <com.yuqirong.searchbar.SearchBarView
-            android:id="@+id/searchbarview"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:search_bar_hint_text="请输入搜索的内容"
-            app:search_bar_status="status_close" />
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
 
-    </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 
 </android.support.design.widget.CoordinatorLayout>

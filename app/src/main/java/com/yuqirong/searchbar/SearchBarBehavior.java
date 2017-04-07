@@ -18,9 +18,15 @@ import android.view.ViewGroup;
 public class SearchBarBehavior extends CoordinatorLayout.Behavior<View> {
 
     private SearchBarView searchBarView;
+    private int offset;
 
     public SearchBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @Override
+    public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
+        return super.onLayoutChild(parent, child, layoutDirection);
     }
 
     @Override
@@ -48,14 +54,20 @@ public class SearchBarBehavior extends CoordinatorLayout.Behavior<View> {
     }
 
     @Override
+    public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
+        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
+        offset += dy;
+    }
+
+    @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
         if (child instanceof RecyclerView) {
             RecyclerView recyclerView = (RecyclerView) child;
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
             if (layoutManager instanceof LinearLayoutManager) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-                if (firstVisibleItemPosition != 0) {
+                LinearLayoutManager layoutManager1 = (LinearLayoutManager) layoutManager;
+                int firstVisibleItemPosition = layoutManager1.findFirstVisibleItemPosition();
+                if (firstVisibleItemPosition > 0) {
                     searchBarView.startOpen();
                 } else {
                     searchBarView.startClose();

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SearchBar</string>
+    <string name="string_search_text">请输入搜索内容</string>
 </resources>
