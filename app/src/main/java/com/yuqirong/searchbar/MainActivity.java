@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             supportActionBar.hide();
         }
         searchbarview = (SearchBarView) findViewById(R.id.searchbarview);
+        searchbarview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // enter search activity
+                Toast.makeText(MainActivity.this, "enter search activity", Toast.LENGTH_SHORT).show();
+            }
+        });
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbarlayout);
         appBarLayout.addOnOffsetChangedListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
