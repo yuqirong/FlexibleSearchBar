@@ -35,6 +35,7 @@ public class SearchBarView extends View {
     private static final int DEFAULT_LEFT_POSITION = 1 << 2;
     private static final int DEFAULT_SEARCH_TEXT_COLOR = Color.GRAY;
     private static final int DEFAULT_HINT_TEXT_SIZE = 14;
+    private static final int DEFAULT_HEIGHT = 40;
 
     private int mWidth;
     private int mHeight;
@@ -48,6 +49,7 @@ public class SearchBarView extends View {
     private CharSequence mSearchText;
     private int searchBarColor;
     private int searchTextColor;
+    private float defaultHeight;
     private ValueAnimator openAnimator = new ValueAnimator();
     private ValueAnimator closeAnimator = new ValueAnimator();
     private Bitmap bitmap;
@@ -72,10 +74,8 @@ public class SearchBarView extends View {
         searchTextColor = array.getColor(R.styleable.SearchBarView_search_bar_hint_text_color, DEFAULT_SEARCH_TEXT_COLOR);
         float defaultTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, DEFAULT_HINT_TEXT_SIZE, getResources().getDisplayMetrics());
         float searchTextSize = array.getDimension(R.styleable.SearchBarView_search_bar_hint_text_size, defaultTextSize);
+        defaultHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_HEIGHT, getResources().getDisplayMetrics());
         array.recycle();
-        if (mStatus == STATUS_OPEN) {
-
-        }
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(searchBarColor);
         mPaint.setTextSize(searchTextSize);
@@ -139,13 +139,16 @@ public class SearchBarView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         if (widthMode == MeasureSpec.EXACTLY) {
             mWidth = widthSize;
-        } else if (widthMode == MeasureSpec.AT_MOST) {
-            // TODO
+        } else {
+            mWidth = widthSize;
         }
         if (heightMode == MeasureSpec.EXACTLY) {
             mHeight = heightSize;
-        } else if (heightMode == MeasureSpec.AT_MOST) {
-            // TODO
+        } else {
+            mHeight = (int) defaultHeight;
+            if (heightMode == MeasureSpec.AT_MOST) {
+                mHeight = Math.min(heightSize, mHeight);
+            }
         }
         mRadius = Math.min(mWidth, mHeight) / 2;
         if (mStatus == STATUS_OPEN) {
