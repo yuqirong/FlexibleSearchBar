@@ -9,6 +9,10 @@ Screenshot
 ----------
 ![screenshot](/screenshot/20170701150542.gif)
 
+Blog
+----------
+[《可以伸缩的搜索栏，模仿华为应用市场》](http://yuqirong.me/2017/07/03/%E5%8F%AF%E4%BB%A5%E4%BC%B8%E7%BC%A9%E7%9A%84%E6%90%9C%E7%B4%A2%E6%A0%8F%EF%BC%8C%E6%A8%A1%E4%BB%BF%E5%8D%8E%E4%B8%BA%E5%BA%94%E7%94%A8%E5%B8%82%E5%9C%BA/)
+
 Usage
 -----
 1. 在布局中加入 `SearchBarView`：
