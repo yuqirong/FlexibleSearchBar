@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
@@ -114,7 +115,7 @@ public class SearchBarView extends View {
         });
         // init close animator
         closeAnimator = new ValueAnimator();
-        openAnimator.setInterpolator(accelerateInterpolator);
+        closeAnimator.setInterpolator(accelerateInterpolator);
         closeAnimator.setDuration(duration);
         closeAnimator.addUpdateListener(animatorUpdateListener);
         closeAnimator.addListener(new AnimatorListenerAdapter() {
@@ -180,6 +181,21 @@ public class SearchBarView extends View {
             double textHeight = Math.ceil(fm.descent - fm.ascent);
             canvas.drawText(mSearchText.toString(), 2 * mRadius, (float) (mRadius + textHeight / 2 - fm.descent), mPaint);
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        // 如果事件不是在search bar区域内，那么不响应
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float actionX = event.getX();
+            // 计算search bar的左右边界
+            int left = mPosition == DEFAULT_RIGHT_POSITION ? mWidth - 2 * mRadius - mOffsetX : 0;
+            int right = mPosition == DEFAULT_RIGHT_POSITION ? mWidth : 2 * mRadius + mOffsetX;
+            if (actionX < left || actionX > right) {
+                return false;
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     /**
