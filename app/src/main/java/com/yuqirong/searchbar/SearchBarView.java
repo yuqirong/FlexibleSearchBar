@@ -148,12 +148,13 @@ public class SearchBarView extends View {
         } else {
             mHeight = (int) defaultHeight;
             if (heightMode == MeasureSpec.AT_MOST) {
-                mHeight = Math.min(heightSize, mHeight);
+                mHeight = (int) (Math.min(heightSize, defaultHeight));
             }
         }
-        mRadius = Math.min(mWidth, mHeight) / 2;
+        mRadius = Math.min(mWidth - getPaddingLeft() - getPaddingRight(),
+                mHeight - getPaddingTop() - getPaddingBottom()) / 2;
         if (mStatus == STATUS_OPEN) {
-            mOffsetX = mWidth - mRadius * 2;
+            mOffsetX = mWidth - mRadius * 2 - getPaddingRight() - getPaddingLeft();
         }
         setMeasuredDimension(mWidth, mHeight);
     }
@@ -162,24 +163,28 @@ public class SearchBarView extends View {
     protected void onDraw(Canvas canvas) {
         // draw search bar
         mPaint.setColor(searchBarColor);
-        int left = mPosition == DEFAULT_RIGHT_POSITION ? mWidth - 2 * mRadius - mOffsetX : 0;
-        int right = mPosition == DEFAULT_RIGHT_POSITION ? mWidth : 2 * mRadius + mOffsetX;
+        int left = mPosition == DEFAULT_RIGHT_POSITION ?
+                mWidth - getPaddingRight() - 2 * mRadius - mOffsetX : getPaddingLeft();
+        int right = mPosition == DEFAULT_RIGHT_POSITION ?
+                mWidth - getPaddingRight() : 2 * mRadius + mOffsetX + getPaddingLeft();
+        int top = getPaddingTop();
+        int bottom = mHeight - getPaddingBottom();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            canvas.drawRoundRect(left, 0, right, mHeight, mRadius, mRadius, mPaint);
+            canvas.drawRoundRect(left, top, right, bottom, mRadius, mRadius, mPaint);
         } else {
-            mRectF.set(left, 0, right, mHeight);
+            mRectF.set(left, top, right, bottom);
             canvas.drawRoundRect(mRectF, mRadius, mRadius, mPaint);
         }
         // draw search bar icon
-        mDstRectF.set(left + (int) ((1 - Math.sqrt(2) / 2) * mRadius), (int) ((1 - Math.sqrt(2) / 2) * mRadius),
-                left + (int) ((1 + Math.sqrt(2) / 2) * mRadius), (int) ((1 + Math.sqrt(2) / 2) * mRadius));
+        mDstRectF.set(left + (int) ((1 - Math.sqrt(2) / 2) * mRadius), top + (int) ((1 - Math.sqrt(2) / 2) * mRadius),
+                left + (int) ((1 + Math.sqrt(2) / 2) * mRadius), top + (int) ((1 + Math.sqrt(2) / 2) * mRadius));
         canvas.drawBitmap(bitmap, null, mDstRectF, mPaint);
         // draw search bar text
         if (mStatus == STATUS_OPEN && !TextUtils.isEmpty(mSearchText)) {
             mPaint.setColor(searchTextColor);
             Paint.FontMetrics fm = mPaint.getFontMetrics();
             double textHeight = Math.ceil(fm.descent - fm.ascent);
-            canvas.drawText(mSearchText.toString(), 2 * mRadius, (float) (mRadius + textHeight / 2 - fm.descent), mPaint);
+            canvas.drawText(mSearchText.toString(), left + 2 * mRadius, top + (float) (mRadius + textHeight / 2 - fm.descent), mPaint);
         }
     }
 
@@ -227,7 +232,7 @@ public class SearchBarView extends View {
         } else if (closeAnimator.isStarted()) {
             closeAnimator.cancel();
         }
-        openAnimator.setIntValues(mOffsetX, mWidth - mRadius * 2);
+        openAnimator.setIntValues(mOffsetX, mWidth - mRadius * 2 - getPaddingLeft() - getPaddingRight());
         openAnimator.start();
     }
 
